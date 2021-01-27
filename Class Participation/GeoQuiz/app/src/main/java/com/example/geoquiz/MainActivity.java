@@ -40,13 +40,16 @@ public class MainActivity extends AppCompatActivity {
         mTrueButton = findViewById(R.id.true_button);
         mFalseButton = findViewById(R.id.false_button);
         mQuestionTextView =findViewById(R.id.question_text_view);
+
+        int question = mQuestionBank[mCurrentIndex].getmTextResID();
+        mQuestionTextView.setText(question);
         //Click events
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Does Nothing
-                final int random = new Random().nextInt(61) +  20;
-                Logger.d(random);
+                final int random = new Random().nextInt(5);
+                Logger.d(mQuestionBank[random].getmTextResID());
 
             }
         });
@@ -55,6 +58,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Does Nothing
+            }
+        });
+
+        mNextButton = (Button) findViewById(R.id.next_button);
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                int question = mQuestionBank[mCurrentIndex].getmTextResID();
+                mQuestionTextView.setText(question);
             }
         });
     }
