@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_australia,true),
             new Question(R.string.question_oceans,true),
-            new Question(R.string.question_mideast,true),
-            new Question(R.string.question_africa,true),
+            new Question(R.string.question_mideast,false),
+            new Question(R.string.question_africa,false),
             new Question(R.string.question_americas,true),
             new Question(R.string.question_asia,true),
     };
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         //ID Finders
         mTrueButton = findViewById(R.id.true_button);
         mFalseButton = findViewById(R.id.false_button);
-        mQuestionTextView =findViewById(R.id.question_text_view);
+        mQuestionTextView = findViewById(R.id.question_text_view);
 
         int question = mQuestionBank[mCurrentIndex].getmTextResID();
         mQuestionTextView.setText(question);
@@ -47,9 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Does Nothing
-                final int random = new Random().nextInt(5);
-                Logger.d(mQuestionBank[random].getmTextResID());
+                checkAnswer(true);
 
             }
         });
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Does Nothing
+                checkAnswer(false);
             }
         });
 
@@ -68,7 +66,27 @@ public class MainActivity extends AppCompatActivity {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 int question = mQuestionBank[mCurrentIndex].getmTextResID();
                 mQuestionTextView.setText(question);
+                updateQuestion();
             }
         });
+        updateQuestion();
     }
+
+
+        private void updateQuestion() {
+            int question = mQuestionBank[mCurrentIndex].getmTextResID();
+            mQuestionTextView.setText(question);
+        }
+    private void checkAnswer(boolean userPressedTrue) {
+        boolean answerIsTrue = mQuestionBank[mCurrentIndex].ismAnswerTrue();
+        int messageResId = 0;
+        if (userPressedTrue == answerIsTrue) {
+            messageResId = R.string.correct_toast;
+        } else {
+            messageResId = R.string.incorrect_toast;
+        }
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
+                .show();
+    }
+
 }
