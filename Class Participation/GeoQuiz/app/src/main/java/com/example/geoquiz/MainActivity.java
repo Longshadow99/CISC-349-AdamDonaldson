@@ -11,6 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
+
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
@@ -29,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Logger.addLogAdapter(new AndroidLogAdapter());
 
         //ID Finders
         mTrueButton = findViewById(R.id.true_button);
@@ -40,10 +45,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Does Nothing
-                int id = mQuestionBank[0].getmTextResID();
-                boolean truth = mQuestionBank[0].ismAnswerTrue();
+                final int random = new Random().nextInt(61) +  20;
+                Logger.d(random);
 
-                logger.d("The ID is" + id + "and the truth is" + truth);
             }
         });
 
@@ -51,9 +55,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Does Nothing
-                Toast.makeText(MainActivity.this,
-                        "You clicked false",
-                        Toast.LENGTH_SHORT);
             }
         });
     }
