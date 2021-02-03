@@ -1,5 +1,6 @@
 package com.example.geoquiz;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.nfc.Tag;
@@ -17,10 +18,46 @@ import com.orhanobut.logger.Logger;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String KEY_INDEX = "index";
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Logger.d("In onSaveInstanceState");
+        outState.putInt(KEY_INDEX, mCurrentIndex);
+    }
+
+    private static  final String TAG= "MainActivity";
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Logger.d("onStart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Logger.d("onDestroy");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //Logger.d("onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Logger.d("onResume");
+    }
+
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_australia,true),
             new Question(R.string.question_oceans,true),
@@ -39,7 +76,13 @@ public class MainActivity extends AppCompatActivity {
         //ID Finders
         mTrueButton = findViewById(R.id.true_button);
         mFalseButton = findViewById(R.id.false_button);
+        mCheatButton = findViewById(R.id.cheat_button);
         mQuestionTextView = findViewById(R.id.question_text_view);
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+        }
+
+        updateQuestion();
 
         int question = mQuestionBank[mCurrentIndex].getmTextResID();
         mQuestionTextView.setText(question);
@@ -69,8 +112,19 @@ public class MainActivity extends AppCompatActivity {
                 updateQuestion();
             }
         });
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start CheatActivity
+                Logger.d("onCheat");
+            }
+        });
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+        }
         updateQuestion();
     }
+
 
 
         private void updateQuestion() {
