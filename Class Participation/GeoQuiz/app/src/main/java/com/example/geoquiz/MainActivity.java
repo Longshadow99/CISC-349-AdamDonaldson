@@ -1,8 +1,12 @@
 package com.example.geoquiz;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mNextButton;
     private Button mCheatButton;
     private TextView mQuestionTextView;
+    public static final String EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true";
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -67,6 +72,20 @@ public class MainActivity extends AppCompatActivity {
             new Question(R.string.question_asia,true),
     };
     private int mCurrentIndex = 0;
+    private static final int REQUEST_CODE_CHEAT = 0;
+
+    protected void onActivityResult(int requestCode,int resultCode,@Nullable Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        Logger.d(requestCode);
+        if (requestCode == REQUEST_CODE_CHEAT){
+            if (resultCode == Activity.RESULT_OK){
+                Logger.d("Result okay and code is 0");
+            }else{
+                Logger.d("Result Cancelled");
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         mFalseButton = findViewById(R.id.false_button);
         mCheatButton = findViewById(R.id.cheat_button);
         mQuestionTextView = findViewById(R.id.question_text_view);
+
+
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
         }
@@ -117,6 +138,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Start CheatActivity
                 Logger.d("onCheat");
+                Intent i = new Intent(MainActivity.this, CheatActivity.class);
+
+                i.putExtra(EXTRA_ANSWER_IS_TRUE, "Hello World");
+                startActivity(i);
             }
         });
         if (savedInstanceState != null) {
