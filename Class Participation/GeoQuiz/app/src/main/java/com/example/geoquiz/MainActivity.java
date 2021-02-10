@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_INDEX = "index";
     private Button mTrueButton;
     private Button mFalseButton;
-    private Button mNextButton;
+    private ImageButton mNextButton;
     private Button mCheatButton;
     private TextView mQuestionTextView;
     public static final String EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true";
@@ -76,15 +77,23 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode,int resultCode,@Nullable Intent data){
         super.onActivityResult(requestCode,resultCode,data);
-        Logger.d(requestCode);
+        String message = "Thank you for not cheating";
         if (requestCode == REQUEST_CODE_CHEAT){
             if (resultCode == Activity.RESULT_OK){
-                Logger.d("Result okay and code is 0");
+                message = "You cheated!";
+                Logger.d(message);
+
             }else{
-                Logger.d("Result Cancelled");
+                Logger.d(message);
+
             }
+
         }
+        cheatToast(message);
+
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mNextButton = (Button) findViewById(R.id.next_button);
+        mNextButton = (ImageButton) findViewById(R.id.next_button);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,11 +146,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start CheatActivity
-                Logger.d("onCheat");
                 Intent i = new Intent(MainActivity.this, CheatActivity.class);
 
-                i.putExtra(EXTRA_ANSWER_IS_TRUE, "Hello World");
-                startActivity(i);
+                i.putExtra(EXTRA_ANSWER_IS_TRUE,  String.valueOf(mQuestionBank[mCurrentIndex].ismAnswerTrue()));
+                startActivityForResult(i, REQUEST_CODE_CHEAT);
             }
         });
         if (savedInstanceState != null) {
@@ -164,8 +172,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
             messageResId = R.string.incorrect_toast;
         }
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
-                .show();
+        Toast bread = Toast.makeText(MainActivity.this, messageResId, Toast.LENGTH_SHORT);
+        bread.show();
+    }
+    private void cheatToast(String message){
+        Toast bread = Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG);
+        bread.show();
     }
 
 }

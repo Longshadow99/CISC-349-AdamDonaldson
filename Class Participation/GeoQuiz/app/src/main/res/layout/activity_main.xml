@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -13,16 +14,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
+
         <Button
             android:id="@+id/true_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/grey"
             android:text="@string/true_button" />
+
         <Button
             android:id="@+id/false_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/false_button" />
+            android:backgroundTint="@color/grey"
+            android:text="@string/false_button"
+            app:iconTint="#FFFFFF" />
 
     </LinearLayout>
 
@@ -30,13 +36,15 @@
         android:id="@+id/cheat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cheat_button" />
+        android:backgroundTint="#7A7474"
+        android:text="@string/cheat_button"
+        app:iconTint="#FFFFFF" />
 
-    <Button
+    <ImageButton
         android:id="@+id/next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawablePadding="4dp"
-        android:text="@string/next_button" />
-
+        android:backgroundTint="@color/grey"
+        android:src="@drawable/ic_action_name"
+        android:tint="#FFFFFF" />
 </LinearLayout>
