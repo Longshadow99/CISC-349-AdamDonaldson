@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -26,7 +29,14 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.my_list,
                 listItem);
         listView.setAdapter(adapter);
-
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String value=adapter.getItem(position);
+                Toast.makeText(getApplicationContext(),value,Toast.LENGTH_SHORT).show();
+                Log.d(TAG, adapter.getItem(position));
+            }
+        });
         }
     }
