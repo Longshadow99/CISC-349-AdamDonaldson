@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Linear Regression</string>
+    <string name="hint_txt">Enter Bream Length(cm)</string>
+    <string name="button_txt">Predict Weight</string>
+</resources>

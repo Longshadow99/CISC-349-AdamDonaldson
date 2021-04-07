@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         Logger.d(image);
 
-        final String URL = "http://192.168.68.104:5000/image";
+        final String URL = "http://192.168.254.70:5000/image";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, json, new Response.Listener<JSONObject>() {
             @Override
@@ -104,8 +104,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }, new Response.ErrorListener(){
             @Override
-            public void onErrorResponse(VolleyError error){}
+            public void onErrorResponse(VolleyError error){
                 Logger.e(error.getMessage());
+            }
         });
     queue.add(jsonObjectRequest);
     }
